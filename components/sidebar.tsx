@@ -34,14 +34,16 @@ const musicMenu = [
   },
 ]
 
+const playlists = new Array(30).fill(1).map((_, i) => `Playlist ${i + 1}`)
+
 const Sidebar = () => {
   return (
     <Box width="100%" height="calc(100vh - 100px)" px={2} color="gray.300" bg="blackAlpha.900">
-      <Box py={5}>
+      <Box height="100%" py={5} overflow="hidden">
         <Box width="120px" mb={5} px={5}>
           <NextImage src="/trax-logo.svg" height={60} width={120} />
         </Box>
-        <Box mb={5}>
+        <Box>
           <List spacing={2}>
             {navMenu.map((menu) => (
               <ListItem key={menu.name} px={5} fontSize="16px">
@@ -57,7 +59,7 @@ const Sidebar = () => {
             ))}
           </List>
         </Box>
-        <Divider mb={5} color="whiteAlpha.400" />
+        <Divider my={5} color="whiteAlpha.400" />
         <Box>
           <List spacing={2}>
             {musicMenu.map((menu) => (
@@ -68,6 +70,20 @@ const Sidebar = () => {
                       <ListIcon as={menu.icon} mr={5} color="white" />
                       {menu.name}
                     </LinkOverlay>
+                  </NextLink>
+                </LinkBox>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+        <Divider my={5} color="whiteAlpha.400" />
+        <Box height="47%" overflowY="auto">
+          <List spacing={2}>
+            {playlists.map((item) => (
+              <ListItem key={item} px={5} fontSize="16px">
+                <LinkBox>
+                  <NextLink href="/" passHref>
+                    <LinkOverlay>{item}</LinkOverlay>
                   </NextLink>
                 </LinkBox>
               </ListItem>
