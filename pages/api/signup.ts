@@ -44,7 +44,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     }),
   )
 
-  const { password: userPassword, ...restData } = user
+  const { password: userPassword, ...userData } = user
 
-  res.json(restData)
+  res.json(userData)
 }
