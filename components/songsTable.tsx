@@ -1,27 +1,30 @@
-import { Box } from '@chakra-ui/layout'
+import { Box, Flex } from '@chakra-ui/layout'
 import { Table, Thead, Tbody, Td, Tr, Th, IconButton } from '@chakra-ui/react'
 import { BsFillPlayFill } from 'react-icons/bs'
 import { AiOutlineClockCircle } from 'react-icons/ai'
+import { formatDate, formatTime } from '../lib/formatters'
 
 const SongsTable = ({ songs }) => {
   if (!songs) return null
 
   return (
-    <Box px="5">
+    <Box px="5" color="white">
       <Box mb="5">
         <IconButton
           colorScheme="green"
           icon={<BsFillPlayFill fontSize="28px" color="white" />}
-          rounded="3xl"
-          aria-label="play button"
+          isRound
+          size="lg"
+          aria-label="play"
           boxShadow="2xl"
         />
       </Box>
       <Box>
-        <Table>
-          <Thead>
+        <Table variant="unstyled">
+          <Thead borderBottom="1px solid rgba(255, 255, 255, 0.2)">
             <Tr>
-              <Th>Name</Th>
+              <Th>#</Th>
+              <Th>Title</Th>
               <Th>Date Added</Th>
               <Th>
                 <AiOutlineClockCircle />
@@ -31,10 +34,20 @@ const SongsTable = ({ songs }) => {
           <Tbody>
             {songs.map((song) => {
               return (
-                <Tr key={song.id}>
+                <Tr
+                  key={song.id}
+                  cursor="cursor"
+                  sx={{
+                    transition: 'all 0.3s',
+                    '&:hover': {
+                      bg: 'rgba(255, 255, 255, 0.03)',
+                    },
+                  }}
+                >
+                  <Td>{song.id}</Td>
                   <Td>{song.name}</Td>
-                  <Td>{new Date(song.createdAt).toLocaleDateString()}</Td>
-                  <Td>{song.duration}</Td>
+                  <Td>{formatDate(song.createdAt)}</Td>
+                  <Td>{formatTime(song.duration)}</Td>
                 </Tr>
               )
             })}
