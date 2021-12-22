@@ -22,7 +22,7 @@ const GradientLayout = ({ title, subtitle, color, image, children, description, 
           <Text fontSize="xs">{description}</Text>
         </Box>
       </Flex>
-      {children}
+      <Box py="10">{children}</Box>
     </Box>
   )
 }
