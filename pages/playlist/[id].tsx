@@ -3,15 +3,23 @@ import PrismaClient from '../../lib/prisma'
 import { GradientLayout } from '../../components/gradientLayout'
 import { validateToken } from '../../lib/auth'
 
+const getBGColor = (id) => {
+  const colors = ['blue', 'purple', 'green', 'yellow', 'orange', 'teal', 'red', 'gray', 'pink']
+  const randomIndex = Math.floor(Math.random() * colors.length)
+  return colors[id - 1] || colors[randomIndex]
+}
+
 export default function Playlist({ playlist }) {
   if (!playlist) return null
 
   return (
     <GradientLayout
-      color="red"
+      color={getBGColor(playlist.id)}
       subtitle="playlist"
       title={playlist.name}
-      image="https://res.cloudinary.com/dh5nhyzyb/image/upload/v1640153483/Screen_Shot_2021-12-22_at_1.10.35_AM.png"
+      description={`${playlist.songs.length} songs`}
+      image={`https://picsum.photos/400?random=${playlist.id}`}
+      roundImage={false}
     >
       playlist
     </GradientLayout>
