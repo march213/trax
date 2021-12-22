@@ -89,7 +89,7 @@ const Sidebar = () => {
                 <LinkBox>
                   <NextLink
                     href={{
-                      pathname: '/playlist',
+                      pathname: '/playlist/[id]',
                       query: {
                         id: playlist.id,
                       },
