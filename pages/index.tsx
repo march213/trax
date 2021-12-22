@@ -4,14 +4,17 @@ import { Image } from '@chakra-ui/react'
 
 import { GradientLayout } from '../components/gradientLayout'
 import PrismaClient from '../lib/prisma'
+import { useMe } from '../lib/hooks'
 
 export default function Home({ artists }) {
+  const { userData } = useMe()
+
   return (
     <GradientLayout
       color="gray"
       subtitle="profile"
-      title="Jane M"
-      description="15 public playlists"
+      title={`${userData?.firstName} ${userData?.lastName}`}
+      description={`${userData?.playlistsCount} public playlists`}
       image="https://res.cloudinary.com/dh5nhyzyb/image/upload/v1640153483/Screen_Shot_2021-12-22_at_1.10.35_AM.png"
       roundImage
     >
