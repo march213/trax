@@ -38,6 +38,10 @@ const musicMenu = [
 const Sidebar = () => {
   const { playlists } = usePlaylist()
 
+  if (!Array.isArray(playlists)) {
+    return null
+  }
+
   return (
     <Box width="100%" height="calc(100vh - 100px)" px={2} color="gray.300" bg="blackAlpha.900">
       <Box height="100%" py={5} overflow="hidden">
