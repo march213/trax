@@ -2,7 +2,6 @@ import { FC, useState } from 'react'
 import NextImage from 'next/image'
 import { Box, Flex, Input, Button, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import { useSWRConfig } from 'swr'
 import { auth } from '../lib/mutations'
 
 const AuthForm: FC<{ mode: 'signin' | 'signup' }> = ({ mode }) => {
@@ -16,6 +15,8 @@ const AuthForm: FC<{ mode: 'signin' | 'signup' }> = ({ mode }) => {
 
     const email = e.target.elements?.email?.value
     const password = e.target.elements?.password?.value
+    const firstName = e.target.elements?.fistName?.value
+    const lastName = e.target.elements?.lastName?.value
 
     if (!email || !password) {
       setError('Please enter an email and password')
@@ -23,7 +24,11 @@ const AuthForm: FC<{ mode: 'signin' | 'signup' }> = ({ mode }) => {
       return
     }
 
-    await auth(mode, { email, password })
+    if (mode === 'signup') {
+      await auth(mode, { email, password, firstName, lastName })
+    } else {
+      await auth(mode, { email, password })
+    }
     setError(undefined)
     setIsLoading(false)
     router.push('/')
@@ -39,26 +44,18 @@ const AuthForm: FC<{ mode: 'signin' | 'signup' }> = ({ mode }) => {
           <form onSubmit={handleSubmit}>
             <Input mb="4" borderColor="gray.600" name="email" type="email" placeholder="email" />
             <Input mb="4" borderColor="gray.600" name="password" type="password" placeholder="password" />
+            {mode === 'signup' ? (
+              <>
+                <Input mb="4" borderColor="gray.600" name="firstName" type="text" placeholder="fist name" />
+                <Input mb="4" borderColor="gray.600" name="lastName" type="text" placeholder="last name" />
+              </>
+            ) : null}
             {error ? (
               <Text mb="4" color="red.400">
                 {error}
               </Text>
             ) : null}
-            <Button
-              type="submit"
-              bg="green.500"
-              isLoading={isLoading}
-              _hover={{ backgroundColor: 'green.400' }}
-              _focus={{ backgroundColor: 'green.600' }}
-              _active={{ backgroundColor: 'green.600' }}
-              _disabled={{
-                backgroundColor: 'green.800',
-                cursor: 'not-allowed',
-                '&:hover,&:focus,&:active': {
-                  backgroundColor: 'green.800',
-                },
-              }}
-            >
+            <Button type="submit" colorScheme="green" isLoading={isLoading}>
               {mode}
             </Button>
           </form>

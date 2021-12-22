@@ -2,6 +2,7 @@ import { GetServerSideProps } from 'next'
 import PrismaClient from '../../lib/prisma'
 import { GradientLayout } from '../../components/gradientLayout'
 import { validateToken } from '../../lib/auth'
+import { SongsTable } from '../../components/songsTable'
 
 const getBGColor = (id) => {
   const colors = ['blue', 'purple', 'green', 'yellow', 'orange', 'teal', 'red', 'gray', 'pink']
@@ -21,7 +22,7 @@ export default function Playlist({ playlist }) {
       image={`https://picsum.photos/400?random=${playlist.id}`}
       roundImage={false}
     >
-      playlist
+      <SongsTable songs={playlist.songs} />
     </GradientLayout>
   )
 }
