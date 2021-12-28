@@ -28,8 +28,20 @@ export default function Playlist({ playlist }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { id: userId } = validateToken(context.req.cookies.trax_access_token)
+  let user
   const playlistId = context.query.id
+
+  try {
+    user = validateToken(context.req.cookies.trax_access_token)
+  } catch (e) {
+    return {
+      redirect: {
+        destination: '/signin',
+        permanent: false,
+      },
+    }
+    }
+  }
 
   let playlist = null
 
@@ -37,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     playlist = await PrismaClient.playlist.findFirst({
       where: {
         id: Number(playlistId),
-        userId,
+        userId: user?.id,
       },
       include: {
         songs: {
